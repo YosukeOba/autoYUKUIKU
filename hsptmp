@@ -1,0 +1,61 @@
+#include "user32.as"
+
+isOn = -1
+
+check = 0
+
+screen 0,300,200,2
+
+*main
+	cls 0
+	if (isOn == 0){
+		check = mouseMoveandClick(1350,155)
+		check = mouseMoveandClick(1350,235)
+		check = mouseMoveandClick(1350,315)
+		check = mouseMoveandClick(1350,395)
+	}
+	
+	gosub *keyPressed
+
+	await 1
+	goto *main
+
+#defcfunc mouseMoveandClick int x, int y
+	mouse x,y
+	await 300
+	mouse_event $6,0,0,0,0
+
+	return-1
+
+*keyPressed
+	key = getKeyCode()
+	switch key
+		case 83:
+			isOn = 0
+			swbreak
+		case 69:
+			isOn = -1
+			swbreak
+		case 27:
+			end
+		default:
+			swbreak
+	swend
+	return
+
+#defcfunc getKeyCode
+	getkey s,83
+	if(s == 1){
+		return 83
+	}
+	getkey e,69
+	if(e == 1){
+		return 69
+	}
+	getkey esc,27
+	if(esc == 1){
+		return 27
+	}
+	return -1
+
+	
